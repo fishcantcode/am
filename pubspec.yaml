@@ -1,3 +1,4 @@
+
 name: aaaaa
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
@@ -73,17 +74,23 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+  fonts:
+     - family: Mitr
+       fonts:
+         - asset: fonts/Mitr-Regular.ttf
+           weight: 400
+         - asset: fonts/Mitr-ExtraLight.ttf
+           weight: 200
+         - asset: fonts/Mitr-Light.ttf
+           weight: 300
+         - asset: fonts/Mitr-Medium.ttf
+           weight: 500
+         - asset: fonts/Mitr-Semibold.ttf
+           weight: 600
+         - asset: fonts/Mitr-Bold.ttf
+           weight: 700
+
+
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
