@@ -40,12 +40,6 @@ class _RegisterLoginPageState extends State<RegisterLoginPage> {
                   hintText: 'Username',
                   alignLabelWithHint: true
               ),
-              validator: (value){
-                if (value == null || value.isEmpty){
-                  return 'Please enter your email address';
-                }
-                return null;
-              },
               style: TextStyle(color: UtilColors.tColor)
           ),
           TextFormField(
@@ -57,12 +51,6 @@ class _RegisterLoginPageState extends State<RegisterLoginPage> {
                   hintText: 'abc@example.com',
                   alignLabelWithHint: true
               ),
-              validator: (value){
-                if (value == null || value.isEmpty){
-                  return 'Please enter your email address';
-                }
-                return null;
-              },
               style: TextStyle(color: UtilColors.tColor)
           ),
           TextFormField(

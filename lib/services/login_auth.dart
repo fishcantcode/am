@@ -27,7 +27,7 @@ class loginAuth {
       if (e.code == 'invalid-credential'){
         errorMessage = 'Incorrect Password or Email';
       } else {
-        errorMessage = e.code;
+        errorMessage = 'Something went wrong';
       }
       final snackbar = SnackBar(
           backgroundColor: UtilColors.sColor,

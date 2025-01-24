@@ -28,6 +28,8 @@ class registerAuth {
         errorMessage = 'Email Already In Use';
       } else if(e.code =='weak-password'){
         errorMessage = 'Password Is Too Weak';
+      } else{
+        errorMessage = 'Something went wrong';
       }
       final snackbar = SnackBar(
       backgroundColor: UtilColors.sColor,

@@ -36,12 +36,6 @@ class _UserLoginPageState extends State<UserLoginPage> {
               hintText: 'abc@example.com',
               alignLabelWithHint: true
             ),
-            validator: (value){
-              if (value == null || value.isEmpty){
-                return 'Please enter your email address';
-              }
-              return null;
-            },
               style: TextStyle(color: UtilColors.tColor)
           ),
           TextFormField(
@@ -54,12 +48,6 @@ class _UserLoginPageState extends State<UserLoginPage> {
                 hintText: 'Password',
               alignLabelWithHint: true
             ),
-            validator: (value){
-              if (value == null || value.isEmpty){
-                return 'Please enter your email address';
-              }
-              return null;
-            },
               style: TextStyle(color: UtilColors.tColor)
           ),
           SizedBox(

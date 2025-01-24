@@ -1,4 +1,5 @@
 import 'package:aaaaa/utils/colors.dart';
+import 'package:aaaaa/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'widget/home_page.dart';
 import 'widget/login_page.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MaterialApp(
+        scaffoldMessengerKey: snackBarKey,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: 'Mitr',
         scaffoldBackgroundColor: UtilColors.background),
