@@ -1,3 +1,4 @@
+import 'package:aaaaa/main_layout.dart';
 import 'package:aaaaa/utils/colors.dart';
 import 'package:aaaaa/utils/global.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
       routes: {
           '/':(context) => const LoginPage(),
-        'main': (context) => const HomePage(),
+        'main': (context) => const mLayout(),
       },
     );
   }

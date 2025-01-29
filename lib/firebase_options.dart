@@ -50,19 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAmfD7KQ6bfTLmw4mGZR7mqaCfr8Zcpdp0',
-    appId: '1:946928660428:android:c3d017ea5123db94fbf769',
-    messagingSenderId: '946928660428',
-    projectId: 'pleasework-f08bb-57669',
-    storageBucket: 'pleasework-f08bb-57669.firebasestorage.app',
+    apiKey: 'AIzaSyDxTZbxme7aHr_zdhPHH6sgHzCjJ7lQr6g',
+    appId: '1:1047655151970:android:198f88ca581adced98943b',
+    messagingSenderId: '1047655151970',
+    projectId: 'sear-37cf9',
+    storageBucket: 'sear-37cf9.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAVPyjP-jvi9PilyPDDayemo8Ak9OETdQo',
-    appId: '1:946928660428:ios:115233eae12bf618fbf769',
-    messagingSenderId: '946928660428',
-    projectId: 'pleasework-f08bb-57669',
-    storageBucket: 'pleasework-f08bb-57669.firebasestorage.app',
+    apiKey: 'AIzaSyAI8OlXQDZokh14ra6Sho2ecYT38cfgjUo',
+    appId: '1:1047655151970:ios:f70cb89190c6cd3798943b',
+    messagingSenderId: '1047655151970',
+    projectId: 'sear-37cf9',
+    storageBucket: 'sear-37cf9.firebasestorage.app',
+    iosClientId: '1047655151970-ufr9gdub42k81iu49jfloi0nkoql6di8.apps.googleusercontent.com',
     iosBundleId: 'com.example.aaaaa',
   );
 

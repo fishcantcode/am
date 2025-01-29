@@ -13,15 +13,15 @@
             <array>
                 <!-- TODO Replace this value: -->
                 <!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
-                <string>com.googleusercontent.apps.946928660428-qcm3s277epprb9t0g3ho0gkq7ssbg01v</string>
+                <string>com.googleusercontent.apps.1047655151970-ufr9gdub42k81iu49jfloi0nkoql6di8</string>
             </array>
         </dict>
     </array>
     <!-- End of the Google Sign-in Section -->
     <key>CLIENT_ID</key>
-	<string>946928660428-qcm3s277epprb9t0g3ho0gkq7ssbg01v.apps.googleusercontent.com</string>
+	<string>1047655151970-ufr9gdub42k81iu49jfloi0nkoql6di8.apps.googleusercontent.com</string>
 	<key>GOOGLE_APP_ID</key>
-    <string>1:946928660428:ios:115233eae12bf618fbf769</string>
+    <string>1:1047655151970:ios:f70cb89190c6cd3798943b</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

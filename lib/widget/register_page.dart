@@ -69,10 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     User? user;
                     user = await GoogleAuth().signInWithGoogle();
                     if (user != null) {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) => const HomePage(),));
+                      Navigator.of(context).pushNamed('main');
                     } else {
 
                     }
