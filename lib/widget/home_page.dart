@@ -1,3 +1,5 @@
+import 'package:aaaaa/views/reminder_card.dart';
+import 'package:aaaaa/views/shop_card.dart';
 import 'package:flutter/material.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,7 +25,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                        'Welcome back,',
+                        'Hello,',
                         style: const TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.w700,
@@ -55,6 +57,7 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
+                ReminderCard(),
                 SizedBox(
                   height: 40,
                 ),
@@ -65,6 +68,10 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
+                SizedBox(
+                  height: 5,
+                ),
+                ShopCard()
               ],
             ),
         ),
