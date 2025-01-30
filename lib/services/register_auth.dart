@@ -18,10 +18,7 @@ class registerAuth {
       );
 
       await Future.delayed(const Duration(seconds: 2));
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (BuildContext context) => const HomePage()
-          )
-      );
+      Navigator.of(context).pushNamed('main');
     } on FirebaseAuthException catch(e){
       String errorMessage = '';
       if (e.code == 'email-already-in-use'){

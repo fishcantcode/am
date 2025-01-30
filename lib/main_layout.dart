@@ -48,10 +48,6 @@ class _mLayoutState extends State<mLayout> {
             icon: FaIcon(FontAwesomeIcons.calendarDay),
             label: 'Appointments'
             ),
-            BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.user),
-                label: 'Profile'
-            ),
         ],
       ),
     );
