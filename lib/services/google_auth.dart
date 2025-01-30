@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../utils/colors.dart';
 import '../utils/global.dart';
 
-class GoogleAuth{
+class GoogleAuth {
   Future<User?> signInWithGoogle() async {
     User? user;
     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
@@ -17,8 +17,8 @@ class GoogleAuth{
         idToken: gAuth.idToken,
       );
       try {
-        UserCredential userCred = await FirebaseAuth.instance
-            .signInWithCredential(cred);
+        UserCredential userCred =
+            await FirebaseAuth.instance.signInWithCredential(cred);
 
         user = userCred.user;
       } on FirebaseAuthException catch (e) {
@@ -34,9 +34,8 @@ class GoogleAuth{
             action: SnackBarAction(
               label: 'OK',
               textColor: UtilColors.tColor,
-              onPressed: (){},
-            )
-        );
+              onPressed: () {},
+            ));
         snackBarKey.currentState?.showSnackBar(snackbar);
       }
       return user;

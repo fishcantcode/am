@@ -16,6 +16,7 @@ class _RegisterLoginPageState extends State<RegisterLoginPage> {
   late final TextEditingController _password;
   late final TextEditingController _repeatedPassword;
   late final BuildContext context;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -24,10 +25,11 @@ class _RegisterLoginPageState extends State<RegisterLoginPage> {
     _repeatedPassword = TextEditingController();
     _username = TextEditingController();
   }
+
   @override
   Widget build(BuildContext context) {
     return Form(
-      key : _formkey,
+      key: _formkey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
@@ -38,10 +40,8 @@ class _RegisterLoginPageState extends State<RegisterLoginPage> {
               decoration: const InputDecoration(
                   labelText: 'Username',
                   hintText: 'Username',
-                  alignLabelWithHint: true
-              ),
-              style: TextStyle(color: UtilColors.tColor)
-          ),
+                  alignLabelWithHint: true),
+              style: TextStyle(color: UtilColors.tColor)),
           TextFormField(
               controller: _emailAddress,
               keyboardType: TextInputType.emailAddress,
@@ -49,10 +49,8 @@ class _RegisterLoginPageState extends State<RegisterLoginPage> {
               decoration: const InputDecoration(
                   labelText: 'Email Address',
                   hintText: 'abc@example.com',
-                  alignLabelWithHint: true
-              ),
-              style: TextStyle(color: UtilColors.tColor)
-          ),
+                  alignLabelWithHint: true),
+              style: TextStyle(color: UtilColors.tColor)),
           TextFormField(
               controller: _password,
               keyboardType: TextInputType.visiblePassword,
@@ -61,10 +59,8 @@ class _RegisterLoginPageState extends State<RegisterLoginPage> {
               decoration: const InputDecoration(
                   labelText: 'Password',
                   hintText: 'Password',
-                  alignLabelWithHint: true
-              ),
-              style: TextStyle(color: UtilColors.tColor)
-          ),
+                  alignLabelWithHint: true),
+              style: TextStyle(color: UtilColors.tColor)),
           TextFormField(
               controller: _repeatedPassword,
               keyboardType: TextInputType.visiblePassword,
@@ -73,20 +69,17 @@ class _RegisterLoginPageState extends State<RegisterLoginPage> {
               decoration: const InputDecoration(
                   labelText: 'Re-enter password',
                   hintText: 'Type your password again',
-                  alignLabelWithHint: true
-              ),
-              style: TextStyle(color: UtilColors.tColor)
-          ),
+                  alignLabelWithHint: true),
+              style: TextStyle(color: UtilColors.tColor)),
           SizedBox(
               width: double.infinity,
-              child: ElevatedButton(onPressed: () async{
-                await
-                registerAuth().register(
-                    email: _emailAddress.text,
-                    password: _password.text,
-                    context: context
-                );
-              },
+              child: ElevatedButton(
+                  onPressed: () async {
+                    await registerAuth().register(
+                        email: _emailAddress.text,
+                        password: _password.text,
+                        context: context);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: UtilColors.pColor,
                     foregroundColor: UtilColors.tColor,
@@ -98,10 +91,7 @@ class _RegisterLoginPageState extends State<RegisterLoginPage> {
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
                     ),
-
-                  )
-              )
-          )
+                  )))
         ],
       ),
     );

@@ -41,9 +41,9 @@ class _DetailBarState extends State<DetailBar> {
               ),
               child: IconButton(
                 onPressed: () {
-                  if(widget.route != null){
+                  if (widget.route != null) {
                     Navigator.of(context).pushNamed(widget.route!);
-                  }else{
+                  } else {
                     Navigator.of(context).pop();
                   }
                 },

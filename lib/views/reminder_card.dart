@@ -26,13 +26,12 @@ class _ReminderCardState extends State<ReminderCard> {
               const Row(
                 children: [
                   const CircleAvatar(
-                    backgroundImage:
-                      AssetImage('assets/img/help.jpg'),
+                    backgroundImage: AssetImage('assets/img/help.jpg'),
                   ),
-                  const SizedBox( width: 15),
+                  const SizedBox(width: 15),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment:CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
                         'Uhn nnhum',
@@ -52,19 +51,16 @@ class _ReminderCardState extends State<ReminderCard> {
               Container(
                 width: 400,
                 child: ElevatedButton(
-                  onPressed: (){
-
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: UtilColors.mColor,
                   ),
-                  child:
-                    const Text('OK', style: TextStyle(color: UtilColors.tColor)
-                  ),
+                  child: const Text('OK',
+                      style: TextStyle(color: UtilColors.tColor)),
                 ),
               ),
             ],
-          ) ,
+          ),
         ),
       ),
     );
@@ -86,23 +82,31 @@ class TimeCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: const <Widget>[
-             Icon(Icons.calendar_today_outlined,
+          Icon(
+            Icons.calendar_today_outlined,
             color: UtilColors.tColor,
             size: 20,
           ),
-           SizedBox(width: 10,),
+          SizedBox(
+            width: 10,
+          ),
           Text(
             'TODAY 99/99/9998',
-            style:  TextStyle(color: UtilColors.tColor),
+            style: TextStyle(color: UtilColors.tColor),
           ),
-           SizedBox(width: 10,),
-           Icon(Icons.alarm,
+          SizedBox(
+            width: 10,
+          ),
+          Icon(
+            Icons.alarm,
             color: UtilColors.tColor,
             size: 20,
           ),
-           SizedBox(width: 10,),
-          Flexible(child:
-            Text(
+          SizedBox(
+            width: 10,
+          ),
+          Flexible(
+            child: Text(
               '99:99 pm',
               style: TextStyle(color: UtilColors.tColor),
             ),
@@ -112,5 +116,3 @@ class TimeCard extends StatelessWidget {
     );
   }
 }
-
-

@@ -2,15 +2,11 @@ import 'package:aaaaa/utils/colors.dart';
 import 'package:aaaaa/utils/screen_adapter.dart';
 import 'package:flutter/material.dart';
 
-class ShopCard extends StatefulWidget {
-  const ShopCard({super.key});
+class ShopCard extends StatelessWidget {
+  const ShopCard({super.key, required this.route});
 
-  @override
-  State<ShopCard> createState() => _ShopCardState();
-}
+  final String route;
 
-class _ShopCardState extends State<ShopCard> {
-  @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
     return Container(
@@ -26,8 +22,7 @@ class _ShopCardState extends State<ShopCard> {
               SizedBox(
                   width: ScreenAdapter.screenWidth! * 0.33,
                   child: Padding(
-                    padding:
-                        const EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: SizedBox.fromSize(

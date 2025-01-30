@@ -13,12 +13,13 @@ class mLayout extends StatefulWidget {
 class _mLayoutState extends State<mLayout> {
   int cPage = 0; //current
   final PageController _pages = PageController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
         controller: _pages,
-        onPageChanged: ((value){
+        onPageChanged: ((value) {
           setState(() {
             cPage = value;
           });
@@ -30,24 +31,20 @@ class _mLayoutState extends State<mLayout> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: cPage,
-        onTap: (page){
+        onTap: (page) {
           setState(() {
             cPage = page;
             _pages.animateToPage(page,
                 duration: const Duration(milliseconds: 1000),
-                curve: Curves.easeInOut
-            );
+                curve: Curves.easeInOut);
           });
         },
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.house),
-            label: 'Home'
-            ),
-            BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.calendarDay),
-            label: 'Appointments'
-            ),
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.house), label: 'Home'),
+          BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.calendarDay),
+              label: 'Appointments'),
         ],
       ),
     );

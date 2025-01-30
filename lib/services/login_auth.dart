@@ -3,25 +3,22 @@ import 'package:flutter/material.dart';
 
 import '../utils/colors.dart';
 import '../widget/home_page.dart';
+
 class loginAuth {
-
-
   Future<void> login({
     required String email,
     required String password,
     required BuildContext context,
   }) async {
-    try{
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email,
-          password: password
-      );
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
 
       await Future.delayed(const Duration(seconds: 2));
       Navigator.of(context).pushNamed('main');
-    } on FirebaseAuthException catch(e){
+    } on FirebaseAuthException catch (e) {
       String errorMessage = '';
-      if (e.code == 'invalid-credential'){
+      if (e.code == 'invalid-credential') {
         errorMessage = 'Incorrect Password or Email';
       } else {
         errorMessage = 'Something went wrong';
@@ -34,12 +31,10 @@ class loginAuth {
           action: SnackBarAction(
             label: 'OK',
             textColor: UtilColors.tColor,
-            onPressed: (){},
-          )
-      );
+            onPressed: () {},
+          ));
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
-    }
-    catch (e){
+    } catch (e) {
       rethrow;
     }
   }

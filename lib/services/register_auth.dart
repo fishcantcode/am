@@ -3,45 +3,40 @@ import 'package:flutter/material.dart';
 
 import '../utils/colors.dart';
 import '../widget/home_page.dart';
+
 class registerAuth {
-
-
   Future<void> register({
     required String email,
     required String password,
     required BuildContext context,
-}) async {
-    try{
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email,
-          password: password
-      );
+  }) async {
+    try {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
 
       await Future.delayed(const Duration(seconds: 2));
       Navigator.of(context).pushNamed('main');
-    } on FirebaseAuthException catch(e){
+    } on FirebaseAuthException catch (e) {
       String errorMessage = '';
-      if (e.code == 'email-already-in-use'){
+      if (e.code == 'email-already-in-use') {
         errorMessage = 'Email Already In Use';
-      } else if(e.code =='weak-password'){
+      } else if (e.code == 'weak-password') {
         errorMessage = 'Password Is Too Weak';
-      } else{
+      } else {
         errorMessage = 'Something went wrong';
       }
       final snackbar = SnackBar(
-      backgroundColor: UtilColors.sColor,
-      behavior: SnackBarBehavior.floating,
-      content: Text(errorMessage),
-      //content: Text('NOM ONOM NOMN ONM NOM'),
-      action: SnackBarAction(
-        label: 'OK',
-        textColor: UtilColors.tColor,
-        onPressed: (){},
-      )
-    );
+          backgroundColor: UtilColors.sColor,
+          behavior: SnackBarBehavior.floating,
+          content: Text(errorMessage),
+          //content: Text('NOM ONOM NOMN ONM NOM'),
+          action: SnackBarAction(
+            label: 'OK',
+            textColor: UtilColors.tColor,
+            onPressed: () {},
+          ));
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
-    }
-    catch (e){
+    } catch (e) {
       rethrow;
     }
   }

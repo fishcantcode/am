@@ -20,23 +20,19 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
-        scaffoldMessengerKey: snackBarKey,
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(fontFamily: 'Mitr',
-        scaffoldBackgroundColor: UtilColors.background),
-        initialRoute: '/',
+      scaffoldMessengerKey: snackBarKey,
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+          fontFamily: 'Mitr', scaffoldBackgroundColor: UtilColors.background),
+      initialRoute: '/',
       routes: {
-          '/':(context) => const LoginPage(),
+        '/': (context) => const LoginPage(),
         'main': (context) => const mLayout(),
       },
     );
   }
 }
-
