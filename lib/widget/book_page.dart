@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:table_calendar/table_calendar.dart';
-
+import 'package:intl/intl.dart';
 import '../model/shop_model.dart';
 import '../utils/colors.dart';
 
@@ -23,6 +23,30 @@ class _BookPageState extends State<BookPage> {
   int? _currentIndex;
   bool _selectedDate = false;
   bool _selectedTime = false;
+  Set<String> _bookedSlots = {};
+
+  Future<void> fetchBookedSlots() async {
+    final FirebaseFirestore db = FirebaseFirestore.instance;
+    String date = DateFormat('yyyy-MM-dd').format(_currentDay);
+
+    try {
+      QuerySnapshot querySnapshot = await db
+          .collection('appointments')
+          .where('date', isEqualTo: date)
+          .get();
+
+      Set<String> bookedSlots = {};
+      querySnapshot.docs.forEach((doc) {
+        bookedSlots.add(doc['timeSlot']);
+      });
+
+      setState(() {
+        _bookedSlots = bookedSlots;  // Update booked time slots
+      });
+    } catch (e) {
+      print('Error fetching booked time slots: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +79,15 @@ class _BookPageState extends State<BookPage> {
           ),
           SliverGrid(
             delegate: SliverChildBuilderDelegate(
-              (context, index) {
+                  (context, index) {
+                String timeSlot = '${index + 11}:00 ${index + 11 >= 12 ? "PM" : "AM"}';
+                bool isBooked = _bookedSlots.contains(timeSlot);
+
                 return InkWell(
                   splashColor: Colors.transparent,
-                  onTap: () {
+                  onTap: isBooked
+                      ? null // Disable the time slot if it's already booked
+                      : () {
                     setState(() {
                       _currentIndex = index;
                       _selectedTime = true;
@@ -70,17 +99,24 @@ class _BookPageState extends State<BookPage> {
                       border: Border.all(
                         color: _currentIndex == index
                             ? Colors.white
-                            : Colors.black,
+                            : isBooked?
+                        Colors.grey : Colors.black,
                       ),
                       borderRadius: BorderRadius.circular(10),
-                      color: _currentIndex == index ? UtilColors.pColor : null,
+                      color: _currentIndex == index
+                          ? UtilColors.pColor
+                          : isBooked
+                          ? Colors.grey  // Grey out the booked time slot
+                          : null,
                     ),
                     alignment: Alignment.center,
                     child: Text(
                       '${index + 11}:00 ${index + 11 >= 12 ? "PM" : "AM"}',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
-                        color: _currentIndex == index ? Colors.white : null,
+                        color: _currentIndex == index || isBooked
+                            ? Colors.white
+                            : null,
                       ),
                     ),
                   ),
@@ -143,6 +179,7 @@ class _BookPageState extends State<BookPage> {
           _currentDay = selectedDay;
           _focusDay = focusedDay;
           _selectedDate = true;
+          fetchBookedSlots();
         });
       }),
     );
@@ -154,13 +191,14 @@ class _BookPageState extends State<BookPage> {
 
     String? userId = user?.uid;
     String timeSlot = '${_currentIndex! + 11}:00 ${_currentIndex! + 11 >= 12 ? "PM" : "AM"}';
+    String date = DateFormat('yyyy-MM-dd').format(_currentDay);
 
     try{
       await firestore.collection('appointments').add({
         'shopId': shop.id,
         'shopName': shop.name,
         'userId': userId,
-        'date': _currentDay.toIso8601String(),
+        'date': date,
         'timeSlot': timeSlot,
       });
     Navigator.of(context).pushNamed('booking_successful');
