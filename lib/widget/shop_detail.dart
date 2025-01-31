@@ -19,7 +19,6 @@ class ShopDetail extends StatefulWidget {
 class _ShopDetailState extends State<ShopDetail> {
   late bool isFavourite = false;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,36 +47,65 @@ class _ShopDetailState extends State<ShopDetail> {
               children: <Widget>[
               CircleAvatar(
               radius: 60,
-              //backgroundImage: NetworkImage(),
+              backgroundImage: NetworkImage(widget.shop.imageUrl!),
               backgroundColor: UtilColors.background,
             ),
             SizedBox(height: 25),
-            const Text( 'ok',
-            style: TextStyle(
+            Text( widget.shop.name,
+            style: const TextStyle(
             color: UtilColors.tColor,
             fontSize: 26,
             fontWeight: FontWeight.w700,
             ),
           ),
           SizedBox(height: 5),
+                Text( widget.shop.address,
+                  style: const TextStyle(
+                    color: UtilColors.tColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
           TextButton.icon(
-            onPressed: () { },
+            onPressed: () {
+              //openMap();
+            },
             icon: const FaIcon(Icons.map,
               color: UtilColors.tColor,),
             label: const Text(
-              'your address',
+              'Click here to see map',
               style: TextStyle(
                 color: UtilColors.tColor,
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
               ),
             ),
+            style: TextButton.styleFrom(
+              backgroundColor: UtilColors.pColor,
+            ),
           ),
           SizedBox(height: 25),
         ],
           ),
       ),
-          Body(),
+        Container(
+          padding: const EdgeInsets.all(15),
+          margin: const EdgeInsets.only(bottom: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text(
+                'About',
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+              ),
+              SizedBox(height: 10),
+              Text(
+                widget.shop.description,
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+              )
+            ],
+          ),
+        ),
           const Spacer(),
           Padding(
               padding: const EdgeInsets.all(15),
@@ -85,7 +113,8 @@ class _ShopDetailState extends State<ShopDetail> {
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: (){
-                        Navigator.of(context).pushNamed('booking');
+                        Navigator.of(context).pushNamed('booking',
+                        arguments: widget.shop);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: UtilColors.pColor,
@@ -106,53 +135,4 @@ class _ShopDetailState extends State<ShopDetail> {
   }
 }
 
-
-
-class Body extends StatelessWidget {
-  const Body({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(15),
-      margin: const EdgeInsets.only(bottom: 30),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Text(
-            'About',
-            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-          ),
-          SizedBox(height: 10),
-          Text(
-            'yeah yeahyeahyeahyeahyeahyeahyeahyeahyeahyeah',
-            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class Portfolio extends StatelessWidget {
-  const Portfolio({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(15),
-      margin: const EdgeInsets.only(bottom: 30),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Text(
-            'Portfolio',
-            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-          ),
-          SizedBox(height: 10),
-        ],
-      ),
-    );
-  }
-}
 

@@ -1,8 +1,11 @@
 import 'package:aaaaa/views/detail_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../model/shop_model.dart';
 import '../utils/colors.dart';
 
 class BookPage extends StatefulWidget {
@@ -13,19 +16,20 @@ class BookPage extends StatefulWidget {
 }
 
 class _BookPageState extends State<BookPage> {
+
   CalendarFormat _format = CalendarFormat.month;
   DateTime _focusDay = DateTime.now();
   DateTime _currentDay = DateTime.now();
   int? _currentIndex;
-  bool _isWeekend = false;
   bool _selectedDate = false;
   bool _selectedTime = false;
 
   @override
   Widget build(BuildContext context) {
+    final Shop shop = ModalRoute.of(context)!.settings.arguments as Shop;
     return Scaffold(
       appBar: DetailBar(
-        title: 'Booking',
+        title: 'Booking for ${shop.name} at ${shop.address}',
         icon: const FaIcon(Icons.arrow_back),
       ),
       body: CustomScrollView(
@@ -94,7 +98,8 @@ class _BookPageState extends State<BookPage> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: _selectedTime && _selectedDate ? () {
-                      Navigator.of(context).pushNamed('booking_successful');
+                      bookAppointment(shop);
+                      //Navigator.of(context).pushNamed('booking_successful');
                     } : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: UtilColors.pColor,
@@ -141,5 +146,26 @@ class _BookPageState extends State<BookPage> {
         });
       }),
     );
+  }
+  Future<void> bookAppointment(Shop shop) async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    User? user = auth.currentUser;
+
+    String? userId = user?.uid;
+    String timeSlot = '${_currentIndex! + 11}:00 ${_currentIndex! + 11 >= 12 ? "PM" : "AM"}';
+
+    try{
+      await firestore.collection('appointments').add({
+        'shopId': shop.id,
+        'shopName': shop.name,
+        'userId': userId,
+        'date': _currentDay.toIso8601String(),
+        'timeSlot': timeSlot,
+      });
+    Navigator.of(context).pushNamed('booking_successful');
+  }catch (e) {
+      print('Error: $e');
+    }
   }
 }

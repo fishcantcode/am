@@ -6,6 +6,7 @@ class Shop {
   final String? imageUrl;
   final num  latitude;
   final num  longitude;
+  final String description;
 
   Shop({
     required this.id,
@@ -15,6 +16,7 @@ class Shop {
     required this.address,
     required this.latitude,
     required this.longitude,
+    required this.description,
   });
 
 
@@ -26,5 +28,6 @@ class Shop {
     imageUrl: map['imageUrl'],
     latitude: map['latitude'],
     longitude: map['longitude'],
+    description: map['description'],
   );
 }

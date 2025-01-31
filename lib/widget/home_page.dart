@@ -17,9 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final DatabaseReference _db = FirebaseDatabase.instance.ref().child('shops');
   List<Shop> _shops = [];
-  bool _isLoading = true;
   late String username;
 
   fetch() async {
@@ -66,7 +64,6 @@ class _HomePageState extends State<HomePage> {
       }
       setState(() {
         _shops = tmpShops;
-        _isLoading = false;
       });
     } catch (error) {
       print("Error fetching shops: $error");
