@@ -1,4 +1,4 @@
-import 'package:aaaaa/views/reminder_card.dart';
+import 'package:aaaaa/views/addshop_card.dart';
 import 'package:aaaaa/views/shop_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     child: CircleAvatar(
                       radius: 40,
-                      backgroundImage: AssetImage('assets/img/icon.jpg'),
+                      backgroundImage: AssetImage('assets/img/help.jpg'),
                     ),
                   ),
                 ],
@@ -70,14 +70,6 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 40,
               ),
-              const Text(
-                'Reminder',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              ReminderCard(),
               SizedBox(
                 height: 40,
               ),

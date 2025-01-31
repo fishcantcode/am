@@ -66,17 +66,6 @@ class ShopCard extends StatelessWidget {
                         ],
                       ),
                       Spacer(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Icon(
-                            Icons.star,
-                            color: Colors.amberAccent,
-                            size: 14,
-                          ),
-                          Text('0.0'),
-                        ],
-                      ),
                     ],
                   ),
                 ),
