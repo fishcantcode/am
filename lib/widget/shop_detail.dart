@@ -4,8 +4,13 @@ import 'package:aaaaa/views/detail_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../model/shop_model.dart';
+
 class ShopDetail extends StatefulWidget {
-  const ShopDetail({super.key});
+  final Shop shop;
+
+
+  const ShopDetail({super.key, required this.shop});
 
   @override
   State<ShopDetail> createState() => _ShopDetailState();
@@ -13,6 +18,7 @@ class ShopDetail extends StatefulWidget {
 
 class _ShopDetailState extends State<ShopDetail> {
   late bool isFavourite = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +42,42 @@ class _ShopDetailState extends State<ShopDetail> {
       body: SafeArea(
           child: Column(
         children: <Widget>[
-          About(),
+          Container(
+            width: double.infinity,
+            child: Column(
+              children: <Widget>[
+              CircleAvatar(
+              radius: 60,
+              //backgroundImage: NetworkImage(),
+              backgroundColor: UtilColors.background,
+            ),
+            SizedBox(height: 25),
+            const Text( 'ok',
+            style: TextStyle(
+            color: UtilColors.tColor,
+            fontSize: 26,
+            fontWeight: FontWeight.w700,
+            ),
+          ),
+          SizedBox(height: 5),
+          TextButton.icon(
+            onPressed: () { },
+            icon: const FaIcon(Icons.map,
+              color: UtilColors.tColor,),
+            label: const Text(
+              'your address',
+              style: TextStyle(
+                color: UtilColors.tColor,
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          SizedBox(height: 25),
+        ],
+          ),
+      ),
           Body(),
-          Portfolio(),
           const Spacer(),
           Padding(
               padding: const EdgeInsets.all(15),
@@ -67,50 +106,7 @@ class _ShopDetailState extends State<ShopDetail> {
   }
 }
 
-class About extends StatelessWidget {
-  const About({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    ScreenAdapter.init(context);
-    return Container(
-      width: double.infinity,
-      child: Column(
-        children: <Widget>[
-          CircleAvatar(
-            radius: 60,
-            backgroundImage: AssetImage('assets/img/help.jpg'),
-            backgroundColor: UtilColors.background,
-          ),
-          SizedBox(height: 25),
-          const Text(
-            'someoena name',
-            style: TextStyle(
-              color: UtilColors.tColor,
-              fontSize: 26,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          SizedBox(height: 5),
-          TextButton.icon(
-            onPressed: () { },
-            icon: const FaIcon(Icons.map,
-            color: UtilColors.tColor,),
-            label: const Text(
-              'your address',
-              style: TextStyle(
-                color: UtilColors.tColor,
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-          SizedBox(height: 25),
-        ],
-      ),
-    );
-  }
-}
 
 class Body extends StatelessWidget {
   const Body({super.key});

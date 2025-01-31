@@ -61,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: UtilColors.mColor,
                   ),
-                  child: const Text('Add Barber',
+                  child: const Text('Add Shop',
                       style: TextStyle(color: UtilColors.tColor)),
                 ),
               ),

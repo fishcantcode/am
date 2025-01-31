@@ -35,7 +35,6 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const LoginPage(),
         'main': (context) => const mLayout(),
-        'shop_details': (context) => const ShopDetail(),
         'booking': (context) => const BookPage(),
         'booking_successful': (context) => const BookSuccess(),
       },

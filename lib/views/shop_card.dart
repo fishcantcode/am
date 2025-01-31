@@ -3,11 +3,17 @@ import 'package:aaaaa/utils/screen_adapter.dart';
 import 'package:flutter/material.dart';
 
 class ShopCard extends StatelessWidget {
-  const ShopCard({super.key, required this.route});
+  const ShopCard({super.key , required this.name, required this.address,required this.imageUrl, required this.phone});
 
-  final String route;
+  final String name;
+  final String imageUrl;
+  final String address;
+  final num  phone;
 
   Widget build(BuildContext context) {
+    bool imageUrlExist(){
+        return imageUrl != null && imageUrl.isNotEmpty;
+    }
     ScreenAdapter.init(context);
     return Container(
       width: double.infinity,
@@ -27,8 +33,8 @@ class ShopCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                       child: SizedBox.fromSize(
                         size: Size.fromRadius(70),
-                        child: Image.asset('assets/img/help.jpg',
-                            fit: BoxFit.cover),
+                        child: imageUrlExist()? Image.network(imageUrl, fit: BoxFit.cover)
+                            : Image.asset('assets/img/help.jpg', fit: BoxFit.cover),
                       ),
                     ),
                   )),
@@ -40,14 +46,14 @@ class ShopCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'someone nmae',
+                        name,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       Text(
-                        'someone nmae',
+                        address,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -58,11 +64,11 @@ class ShopCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Icon(
-                            Icons.location_on,
+                            Icons.phone,
                             color: UtilColors.tColor,
                             size: 14,
                           ),
-                          Text('km'),
+                          Text(phone.toString()),
                         ],
                       ),
                       Spacer(),
@@ -73,7 +79,6 @@ class ShopCard extends StatelessWidget {
             ],
           ),
         ),
-        onTap: () {Navigator.of(context).pushNamed(route);},
       ),
     );
   }

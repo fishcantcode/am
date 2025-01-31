@@ -143,11 +143,11 @@ class _AddShopScreenState extends State<AddShopScreen> {
     print(downloadUrl);
     FirebaseFirestore.instance.collection('shops').doc(shopId).set({
       'name': _name.text,
-      'phone': _phone.text,
+      'phone': int.tryParse(_phone.text),
       'address': _address.text,
       'imageUrl': downloadUrl,
-      'latitude': _latitude.text,
-      'longitude': _longitude.text,
+      'latitude': int.tryParse(_latitude.text),
+      'longitude': int.tryParse(_longitude.text),
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("Shop Added Successfully!")),
