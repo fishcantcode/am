@@ -1,5 +1,6 @@
 import 'package:aaaaa/widget/appointment_page.dart';
 import 'package:aaaaa/widget/home_page.dart';
+import 'package:aaaaa/widget/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -26,7 +27,7 @@ class _mLayoutState extends State<mLayout> {
         }),
         children: const <Widget>[
           HomePage(),
-          AppointmentPage(),
+          ProfilePage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -43,8 +44,8 @@ class _mLayoutState extends State<mLayout> {
           BottomNavigationBarItem(
               icon: FaIcon(FontAwesomeIcons.house), label: 'Home'),
           BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.calendarDay),
-              label: 'Appointments'),
+              icon: FaIcon(FontAwesomeIcons.user),
+              label: 'Profile'),
         ],
       ),
     );

@@ -1,22 +1,36 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../utils/colors.dart';
-import '../widget/home_page.dart';
+//import '../widget/home_page.dart';
 
 class registerAuth {
+  //final _db = FirebaseFirestore.instance;
+  late SnackBar snackbar;
   Future<void> register({
     required String email,
     required String password,
+    required String username,
     required BuildContext context,
+
   }) async {
     try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
+      final userInfo = <String, dynamic>{
+      "username": username,
+      "email": email,
+    };
+      UserCredential userCred = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
 
-      await Future.delayed(const Duration(seconds: 2));
-      Navigator.of(context).pushNamed('main');
-    } on FirebaseAuthException catch (e) {
+      var user = await FirebaseAuth.instance.currentUser!;
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'username': username,
+          'email': email
+        }).then((value) => Navigator.of(context).pushNamed('main'));
+
+
+      }
+     on FirebaseAuthException catch (e) {
       String errorMessage = '';
       if (e.code == 'email-already-in-use') {
         errorMessage = 'Email Already In Use';
@@ -25,7 +39,7 @@ class registerAuth {
       } else {
         errorMessage = 'Something went wrong';
       }
-      final snackbar = SnackBar(
+      snackbar = SnackBar(
           backgroundColor: UtilColors.sColor,
           behavior: SnackBarBehavior.floating,
           content: Text(errorMessage),

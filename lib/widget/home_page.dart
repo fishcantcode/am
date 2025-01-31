@@ -1,15 +1,31 @@
 import 'package:aaaaa/views/reminder_card.dart';
 import 'package:aaaaa/views/shop_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+
+import '../utils/colors.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  late String username;
+  fetch() async {
+    final user = await FirebaseAuth.instance.currentUser!;
+    await FirebaseFirestore.instance.collection('users').doc(user.uid).get().then((value){
+      setState(() {
+        username = value.data()?['username'];
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,12 +58,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              Text(
-                'Name',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
+              FutureBuilder(future: fetch(), builder: (context,snapshot){
+                return Text(username,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                );
+              },
               ),
               SizedBox(
                 height: 40,
@@ -79,7 +97,29 @@ class _HomePageState extends State<HomePage> {
                     route: 'shop_details',
                   );
                 }),
-              )
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Divider(
+                      thickness: 0.5,
+                      color: UtilColors.mColor,
+                    ),
+                  ),
+                  Text(
+                    'Stay tuned for more',
+                    style: TextStyle(
+                      color: UtilColors.tColor,
+                    ),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      thickness: 0.5,
+                      color: UtilColors.mColor,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

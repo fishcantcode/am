@@ -74,12 +74,13 @@ class _RegisterLoginPageState extends State<RegisterLoginPage> {
           SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                  onPressed: () async {
+                  onPressed: passwordConfirm()? () async {
                     await registerAuth().register(
                         email: _emailAddress.text,
                         password: _password.text,
+                        username: _username.text,
                         context: context);
-                  },
+                  } : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: UtilColors.pColor,
                     foregroundColor: UtilColors.tColor,
@@ -95,5 +96,12 @@ class _RegisterLoginPageState extends State<RegisterLoginPage> {
         ],
       ),
     );
+  }
+  bool passwordConfirm(){
+    if(_password.text.trim() == _repeatedPassword.text.trim()){
+      return true;
+    }else{
+      return false;
+    }
   }
 }
