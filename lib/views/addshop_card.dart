@@ -1,9 +1,8 @@
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:uuid/uuid.dart';
 
 import '../utils/colors.dart';
 
@@ -20,19 +19,8 @@ class _AddShopScreenState extends State<AddShopScreen> {
   final _address = TextEditingController();
   final _latitude = TextEditingController();
   final _longitude = TextEditingController();
-
-  final ImagePicker _picker = ImagePicker();
-
-  Future<String> uploadImage(String path, XFile image) async {
-    try{
-      final ref = FirebaseStorage.instance.ref(path).child(image.name);
-      await ref.putFile(File(image.path));
-      final url = await ref.getDownloadURL();
-      return url;
-    } catch (e){
-      throw 'something went wrong';
-    }
-  }
+  PlatformFile? pickedFile;
+  UploadTask? uploadTask;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +30,7 @@ class _AddShopScreenState extends State<AddShopScreen> {
         child: Form(
           key: _formKey,
           child: Column(
-            children: <Widget>[
+            children: [
               TextFormField(
                 controller: _name,
                 decoration: InputDecoration(labelText: "Name"),
@@ -66,24 +54,27 @@ class _AddShopScreenState extends State<AddShopScreen> {
 
               SizedBox(height: 20),
 
-              // Image Picker
-              _imageFile == null
-                  ? Text("No image selected")
-                  : Image.file(_imageFile!, height: 100, width: 100, fit: BoxFit.cover),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              Column(
+
+
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: UtilColors.pColor,
-                      foregroundColor: UtilColors.tColor,
+                  const Text(
+                    'Logo',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
                     ),
-                    icon: Icon(Icons.camera_alt,
-                    color: UtilColors.tColor,),
-                    label: Text("Camera"),
-                    onPressed: () => picker(ImageSource.camera),
                   ),
+                  if (pickedFile != null)
+                    Image.file(
+                      File(pickedFile!.path!),
+                      height: 200,
+                      width: 200,
+                      fit: BoxFit.cover,
+                    ),
+
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: UtilColors.pColor,
@@ -92,7 +83,21 @@ class _AddShopScreenState extends State<AddShopScreen> {
                     icon: Icon(Icons.photo_library,
                       color: UtilColors.tColor,),
                     label: Text("Gallery"),
-                    onPressed: () => picker(ImageSource.gallery),
+                    onPressed: () {
+                      select();
+                    }
+                  ),
+                  ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: UtilColors.pColor,
+                        foregroundColor: UtilColors.tColor,
+                      ),
+                      icon: Icon(Icons.download,
+                        color: UtilColors.tColor,),
+                      label: Text("Upload"),
+                      onPressed: () {
+
+                      }
                   ),
                 ],
               ),
@@ -103,13 +108,49 @@ class _AddShopScreenState extends State<AddShopScreen> {
                   backgroundColor: UtilColors.pColor,
                   foregroundColor: UtilColors.tColor,
                 ),
-                onPressed: addShop,
+                onPressed: (){
+                  upload();
+                },
                 child: Text("Add Shop"),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Future select() async {
+    final image = await FilePicker.platform.pickFiles();
+
+    setState(() {
+      pickedFile = image?.files.first;
+    });
+  }
+
+  void upload()async {
+    DocumentReference docRef = FirebaseFirestore.instance.collection('shops').doc();
+    String shopId = docRef.id;
+    final path = 'files/${pickedFile!.name}';
+    final file = File(pickedFile!.path!);
+    final ref = FirebaseStorage.instance.ref().child(path);
+    ref.putFile(file);
+    uploadTask = ref.putFile(file);
+    final snapshot = await uploadTask!.whenComplete((){
+
+    });
+    final downloadUrl = await snapshot.ref.getDownloadURL();
+    print(downloadUrl);
+    FirebaseFirestore.instance.collection('shops').doc(shopId).set({
+      'name': _name.text,
+      'phone': _phone.text,
+      'address': _address.text,
+      'imageUrl': downloadUrl,
+      'latitude': _latitude.text,
+      'longitude': _longitude.text,
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Shop Added Successfully!")),
     );
   }
 }
