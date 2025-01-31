@@ -34,10 +34,10 @@ class _DetailBarState extends State<DetailBar> {
       ),
       leading: widget.icon != null
           ? Container(
-              margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: UtilColors.pColor,
+                borderRadius: BorderRadius.circular(5),
+                color: UtilColors.tColor,
               ),
               child: IconButton(
                 onPressed: () {

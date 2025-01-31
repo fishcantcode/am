@@ -18,68 +18,70 @@ class _HomePageState extends State<HomePage> {
         horizontal: 10,
         vertical: 10,
       ),
-      child: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Hello,',
-                  style: const TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w700,
+      child: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Hello,',
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
-                Text(
-                  'Name',
-                  style: const TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w700,
+                  SizedBox(
+                    child: CircleAvatar(
+                      radius: 40,
+                      backgroundImage: AssetImage('assets/img/icon.jpg'),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  child: CircleAvatar(
-                    radius: 40,
-                    backgroundImage: AssetImage('assets/img/icon.jpg'),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            const Text(
-              'Reminder',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
+                ],
               ),
-            ),
-            ReminderCard(),
-            SizedBox(
-              height: 40,
-            ),
-            const Text(
-              'Recommend',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
+              Text(
+                'Name',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Column(
-              children: List.generate(10, (index) {
-                return const ShopCard(
-                  route: 'route',
-                );
-              }),
-            )
-          ],
+              SizedBox(
+                height: 40,
+              ),
+              const Text(
+                'Reminder',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              ReminderCard(),
+              SizedBox(
+                height: 40,
+              ),
+              const Text(
+                'Recommend',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Column(
+                children: List.generate(10, (index) {
+                  return const ShopCard(
+                    route: 'shop_details',
+                  );
+                }),
+              )
+            ],
+          ),
         ),
       ),
     ));

@@ -84,7 +84,7 @@ class ShopCard extends StatelessWidget {
             ],
           ),
         ),
-        onTap: () {},
+        onTap: () {Navigator.of(context).pushNamed(route);},
       ),
     );
   }
