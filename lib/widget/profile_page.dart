@@ -1,4 +1,5 @@
 import 'package:aaaaa/widget/appointment_page.dart';
+import 'package:aaaaa/widget/chat_page.dart';
 import 'package:aaaaa/widget/login_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -108,7 +109,13 @@ class _ProfilePageState extends State<ProfilePage> {
               Container(
                 width: 400,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChatPage()),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: UtilColors.mColor,
                   ),
@@ -127,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     if (mounted) {
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(builder: (context) => LoginPage()),
-                            (route) => false, // Removes all previous routes
+                            (route) => false,
                       );
                     }                  },
                   style: ElevatedButton.styleFrom(

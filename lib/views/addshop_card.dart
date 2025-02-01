@@ -3,8 +3,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import '../utils/colors.dart';
+import 'detail_bar.dart';
 
 class AddShopScreen extends StatefulWidget {
   @override
@@ -27,7 +29,10 @@ class _AddShopScreenState extends State<AddShopScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Add Shop")),
+      appBar:  DetailBar(
+        title: 'Add shop',
+        icon: const FaIcon(Icons.arrow_back),
+      ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Form(
