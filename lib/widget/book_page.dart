@@ -2,7 +2,9 @@ import 'package:aaaaa/views/detail_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import '../model/shop_model.dart';
@@ -24,6 +26,7 @@ class _BookPageState extends State<BookPage> {
   bool _selectedDate = false;
   bool _selectedTime = false;
   Set<String> _bookedSlots = {};
+  final LocalAuthentication auth = LocalAuthentication();
 
   Future<void> fetchBookedSlots() async {
     final FirebaseFirestore db = FirebaseFirestore.instance;
@@ -48,6 +51,47 @@ class _BookPageState extends State<BookPage> {
     }
   }
 
+  Future<bool> authFingerprint() async{
+    bool authSuccess = false;
+    try{
+      authSuccess = await auth.authenticate(
+        localizedReason: 'Scan your fingerprint to confirm the booking.',
+        options: AuthenticationOptions(biometricOnly: true),
+      );
+    } on PlatformException catch (e) {
+      print('Fingerprint authentication error: $e');
+    }
+    return authSuccess;
+  }
+
+  Future<void> bookAppointment(Shop shop) async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final FirebaseFirestore db = FirebaseFirestore.instance;
+    User? user = auth.currentUser;
+    String? userId = user?.uid;
+    String timeSlot = '${_currentIndex! + 11}:00 ${_currentIndex! + 11 >= 12 ? "PM" : "AM"}';
+    String date = DateFormat('yyyy-MM-dd').format(_currentDay);
+    bool authSuccess = await authFingerprint();
+    
+    if (authSuccess) {
+      try{
+        await db.collection('appointments').add({
+          'shopId': shop.id,
+          'shopName': shop.name,
+          'userId': userId,
+          'date': date,
+          'timeSlot': timeSlot,
+        });
+        Navigator.of(context).pushNamed('booking_successful');
+      }catch (e) {
+        print('Error: $e');
+      }
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please try again")),
+      );
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final Shop shop = ModalRoute.of(context)!.settings.arguments as Shop;
@@ -184,26 +228,5 @@ class _BookPageState extends State<BookPage> {
       }),
     );
   }
-  Future<void> bookAppointment(Shop shop) async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    User? user = auth.currentUser;
 
-    String? userId = user?.uid;
-    String timeSlot = '${_currentIndex! + 11}:00 ${_currentIndex! + 11 >= 12 ? "PM" : "AM"}';
-    String date = DateFormat('yyyy-MM-dd').format(_currentDay);
-
-    try{
-      await firestore.collection('appointments').add({
-        'shopId': shop.id,
-        'shopName': shop.name,
-        'userId': userId,
-        'date': date,
-        'timeSlot': timeSlot,
-      });
-    Navigator.of(context).pushNamed('booking_successful');
-  }catch (e) {
-      print('Error: $e');
-    }
-  }
 }
