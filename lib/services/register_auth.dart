@@ -8,29 +8,28 @@ import '../utils/colors.dart';
 class registerAuth {
   //final _db = FirebaseFirestore.instance;
   late SnackBar snackbar;
+
   Future<void> register({
     required String email,
     required String password,
     required String username,
     required BuildContext context,
-
   }) async {
     try {
       final userInfo = <String, dynamic>{
-      "username": username,
-      "email": email,
-    };
-      UserCredential userCred = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+        "username": username,
+        "email": email,
+      };
+      UserCredential userCred = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
 
       var user = await FirebaseAuth.instance.currentUser!;
-        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-          'username': username,
-          'email': email
-        }).then((value) => Navigator.of(context).pushNamed('main'));
-
-
-      }
-     on FirebaseAuthException catch (e) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .set({'username': username, 'email': email}).then(
+              (value) => Navigator.of(context).pushNamed('main'));
+    } on FirebaseAuthException catch (e) {
       String errorMessage = '';
       if (e.code == 'email-already-in-use') {
         errorMessage = 'Email Already In Use';

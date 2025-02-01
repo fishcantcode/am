@@ -49,8 +49,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
     try {
       await _db.collection('appointments').doc(appointmentId).delete();
       setState(() {
-        _appointments.removeWhere((appointment) =>
-        appointment['id'] == appointmentId);
+        _appointments
+            .removeWhere((appointment) => appointment['id'] == appointmentId);
       });
     } catch (e) {
       print('Error: $e');
@@ -67,32 +67,25 @@ class _AppointmentPageState extends State<AppointmentPage> {
       body: _appointments.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
-        itemCount: _appointments.length,
-        itemBuilder: (context, index) {
-          var appointment = _appointments[index];
-          String timeSlot = appointment['timeSlot'];
-          String date = appointment['date'];
-          String shopName = appointment['shopName'];
-          String shopAddress = appointment['shopName'];
+              itemCount: _appointments.length,
+              itemBuilder: (context, index) {
+                var appointment = _appointments[index];
+                String timeSlot = appointment['timeSlot'];
+                String date = appointment['date'];
+                String shopName = appointment['shopName'];
+                String shopAddress = appointment['shopName'];
 
-          // Format the date for display
-          DateTime dateTime = DateFormat('yyyy-MM-dd').parse(date);
-          String formattedDate = DateFormat('MMM dd, yyyy').format(dateTime);
+                DateTime dateTime = DateFormat('yyyy-MM-dd').parse(date);
+                String formattedDate =
+                    DateFormat('MMM dd, yyyy').format(dateTime);
 
-          return ListTile(
-            title: Text('Appointment at $shopName'),
-            subtitle: Text('$formattedDate at $timeSlot\n$shopAddress'),
-            isThreeLine: true,
-            trailing: IconButton(
-              icon: Icon(Icons.cancel),
-              onPressed: () {
-                // You can implement cancel appointment functionality here
-                cancel(appointment['id']);
+                return ListTile(
+                  title: Text('Appointment at $shopName'),
+                  subtitle: Text('$formattedDate at $timeSlot\n$shopAddress'),
+                  isThreeLine: true,
+                );
               },
             ),
-          );
-        },
-      ),
     );
   }
 }

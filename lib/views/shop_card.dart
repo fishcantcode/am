@@ -3,17 +3,23 @@ import 'package:aaaaa/utils/screen_adapter.dart';
 import 'package:flutter/material.dart';
 
 class ShopCard extends StatelessWidget {
-  const ShopCard({super.key , required this.name, required this.address,required this.imageUrl, required this.phone});
+  const ShopCard(
+      {super.key,
+      required this.name,
+      required this.address,
+      required this.imageUrl,
+      required this.phone});
 
   final String name;
   final String imageUrl;
   final String address;
-  final num  phone;
+  final num phone;
 
   Widget build(BuildContext context) {
-    bool imageUrlExist(){
-        return imageUrl != null && imageUrl.isNotEmpty;
+    bool imageUrlExist() {
+      return imageUrl != null && imageUrl.isNotEmpty;
     }
+
     ScreenAdapter.init(context);
     return Container(
       width: double.infinity,
@@ -33,8 +39,10 @@ class ShopCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                       child: SizedBox.fromSize(
                         size: Size.fromRadius(70),
-                        child: imageUrlExist()? Image.network(imageUrl, fit: BoxFit.cover)
-                            : Image.asset('assets/img/help.jpg', fit: BoxFit.cover),
+                        child: imageUrlExist()
+                            ? Image.network(imageUrl, fit: BoxFit.cover)
+                            : Image.asset('assets/img/help.jpg',
+                                fit: BoxFit.cover),
                       ),
                     ),
                   )),

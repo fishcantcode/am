@@ -18,7 +18,6 @@ class BookPage extends StatefulWidget {
 }
 
 class _BookPageState extends State<BookPage> {
-
   CalendarFormat _format = CalendarFormat.month;
   DateTime _focusDay = DateTime.now();
   DateTime _currentDay = DateTime.now();
@@ -44,16 +43,16 @@ class _BookPageState extends State<BookPage> {
       });
 
       setState(() {
-        _bookedSlots = bookedSlots;  // Update booked time slots
+        _bookedSlots = bookedSlots; // Update booked time slots
       });
     } catch (e) {
       print('Error fetching booked time slots: $e');
     }
   }
 
-  Future<bool> authFingerprint() async{
+  Future<bool> authFingerprint() async {
     bool authSuccess = false;
-    try{
+    try {
       authSuccess = await auth.authenticate(
         localizedReason: 'Scan your fingerprint to confirm the booking.',
         options: AuthenticationOptions(biometricOnly: true),
@@ -69,12 +68,13 @@ class _BookPageState extends State<BookPage> {
     final FirebaseFirestore db = FirebaseFirestore.instance;
     User? user = auth.currentUser;
     String? userId = user?.uid;
-    String timeSlot = '${_currentIndex! + 11}:00 ${_currentIndex! + 11 >= 12 ? "PM" : "AM"}';
+    String timeSlot =
+        '${_currentIndex! + 11}:00 ${_currentIndex! + 11 >= 12 ? "PM" : "AM"}';
     String date = DateFormat('yyyy-MM-dd').format(_currentDay);
     bool authSuccess = await authFingerprint();
-    
+
     if (authSuccess) {
-      try{
+      try {
         await db.collection('appointments').add({
           'shopId': shop.id,
           'shopName': shop.name,
@@ -83,15 +83,16 @@ class _BookPageState extends State<BookPage> {
           'timeSlot': timeSlot,
         });
         Navigator.of(context).pushNamed('booking_successful');
-      }catch (e) {
+      } catch (e) {
         print('Error: $e');
       }
-    }else{
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Please try again")),
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final Shop shop = ModalRoute.of(context)!.settings.arguments as Shop;
@@ -123,8 +124,9 @@ class _BookPageState extends State<BookPage> {
           ),
           SliverGrid(
             delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                String timeSlot = '${index + 11}:00 ${index + 11 >= 12 ? "PM" : "AM"}';
+              (context, index) {
+                String timeSlot =
+                    '${index + 11}:00 ${index + 11 >= 12 ? "PM" : "AM"}';
                 bool isBooked = _bookedSlots.contains(timeSlot);
 
                 return InkWell(
@@ -132,26 +134,27 @@ class _BookPageState extends State<BookPage> {
                   onTap: isBooked
                       ? null // Disable the time slot if it's already booked
                       : () {
-                    setState(() {
-                      _currentIndex = index;
-                      _selectedTime = true;
-                    });
-                  },
+                          setState(() {
+                            _currentIndex = index;
+                            _selectedTime = true;
+                          });
+                        },
                   child: Container(
                     margin: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: _currentIndex == index
                             ? Colors.white
-                            : isBooked?
-                        Colors.grey : Colors.black,
+                            : isBooked
+                                ? Colors.grey
+                                : Colors.black,
                       ),
                       borderRadius: BorderRadius.circular(10),
                       color: _currentIndex == index
                           ? UtilColors.pColor
                           : isBooked
-                          ? Colors.grey  // Grey out the booked time slot
-                          : null,
+                              ? Colors.grey // Grey out the booked time slot
+                              : null,
                     ),
                     alignment: Alignment.center,
                     child: Text(
@@ -177,10 +180,12 @@ class _BookPageState extends State<BookPage> {
               child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: _selectedTime && _selectedDate ? () {
-                      bookAppointment(shop);
-                      //Navigator.of(context).pushNamed('booking_successful');
-                    } : null,
+                    onPressed: _selectedTime && _selectedDate
+                        ? () {
+                            bookAppointment(shop);
+                            //Navigator.of(context).pushNamed('booking_successful');
+                          }
+                        : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: UtilColors.pColor,
                       foregroundColor: UtilColors.tColor,
@@ -228,5 +233,4 @@ class _BookPageState extends State<BookPage> {
       }),
     );
   }
-
 }

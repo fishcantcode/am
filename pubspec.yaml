@@ -50,6 +50,8 @@ dependencies:
   geocoding: ^3.0.0
   firebase_database: ^11.3.1
   local_auth: ^2.3.0
+  google_maps_flutter: ^2.10.0
+  location: ^8.0.0
 
 
 dev_dependencies:

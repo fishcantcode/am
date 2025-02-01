@@ -58,13 +58,8 @@ class _AddShopScreenState extends State<AddShopScreen> {
                 controller: _description,
                 decoration: InputDecoration(labelText: "description"),
               ),
-
               SizedBox(height: 20),
-
-
               Column(
-
-
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const Text(
@@ -74,48 +69,48 @@ class _AddShopScreenState extends State<AddShopScreen> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  if (imageFile  != null)
+                  if (imageFile != null)
                     Image.file(
                       File(imageFile!.path!),
                       height: 200,
                       width: 200,
                       fit: BoxFit.cover,
                     ),
-
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: UtilColors.pColor,
-                      foregroundColor: UtilColors.tColor,
-                    ),
-                    icon: Icon(Icons.photo_library,
-                      color: UtilColors.tColor,),
-                    label: Text("Gallery"),
-                    onPressed: () {
-                      select();
-                    }
-                  ),
                   ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: UtilColors.pColor,
                         foregroundColor: UtilColors.tColor,
                       ),
-                      icon: Icon(Icons.camera_alt,
-                        color: UtilColors.tColor,),
+                      icon: Icon(
+                        Icons.photo_library,
+                        color: UtilColors.tColor,
+                      ),
+                      label: Text("Gallery"),
+                      onPressed: () {
+                        select();
+                      }),
+                  ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: UtilColors.pColor,
+                        foregroundColor: UtilColors.tColor,
+                      ),
+                      icon: Icon(
+                        Icons.camera_alt,
+                        color: UtilColors.tColor,
+                      ),
                       label: Text("Camera"),
                       onPressed: () {
                         takePhoto();
-                      }
-                  ),
+                      }),
                 ],
               ),
-
               SizedBox(height: 20),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: UtilColors.pColor,
                   foregroundColor: UtilColors.tColor,
                 ),
-                onPressed: (){
+                onPressed: () {
                   upload();
                 },
                 child: Text("Add Shop"),
@@ -134,6 +129,7 @@ class _AddShopScreenState extends State<AddShopScreen> {
       pickedFile = image?.files.first;
     });
   }
+
   Future takePhoto() async {
     final pickedImage = await _picker.pickImage(source: ImageSource.camera);
     if (pickedImage != null) {
@@ -147,8 +143,7 @@ class _AddShopScreenState extends State<AddShopScreen> {
     }
   }
 
-
-  void upload()async {
+  void upload() async {
     if (pickedFile == null && imageFile == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Please select or take a photo first")),
@@ -169,12 +164,11 @@ class _AddShopScreenState extends State<AddShopScreen> {
     //final file = File(pickedFile!.path!);
     final ref = FirebaseStorage.instance.ref().child(path);
     uploadTask = ref.putFile(file!);
-    final snapshot = await uploadTask!.whenComplete((){
-
-    });
+    final snapshot = await uploadTask!.whenComplete(() {});
     final downloadUrl = await snapshot.ref.getDownloadURL();
     print(downloadUrl);
-    DocumentReference docRef = FirebaseFirestore.instance.collection('shops').doc();
+    DocumentReference docRef =
+        FirebaseFirestore.instance.collection('shops').doc();
     String shopId = docRef.id;
     FirebaseFirestore.instance.collection('shops').doc(shopId).set({
       'name': _name.text,

@@ -44,8 +44,7 @@ class _mLayoutState extends State<mLayout> {
           BottomNavigationBarItem(
               icon: FaIcon(FontAwesomeIcons.house), label: 'Home'),
           BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.user),
-              label: 'Profile'),
+              icon: FaIcon(FontAwesomeIcons.user), label: 'Profile'),
         ],
       ),
     );

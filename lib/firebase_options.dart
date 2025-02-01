@@ -63,9 +63,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1047655151970',
     projectId: 'sear-37cf9',
     storageBucket: 'sear-37cf9.firebasestorage.app',
-    androidClientId: '1047655151970-ls656osggp7qvnju0227cnr0qi9pqii5.apps.googleusercontent.com',
-    iosClientId: '1047655151970-ufr9gdub42k81iu49jfloi0nkoql6di8.apps.googleusercontent.com',
+    androidClientId:
+        '1047655151970-ls656osggp7qvnju0227cnr0qi9pqii5.apps.googleusercontent.com',
+    iosClientId:
+        '1047655151970-ufr9gdub42k81iu49jfloi0nkoql6di8.apps.googleusercontent.com',
     iosBundleId: 'com.example.aaaaa',
   );
-
 }

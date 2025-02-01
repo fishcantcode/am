@@ -1,6 +1,7 @@
 import 'package:aaaaa/utils/colors.dart';
 import 'package:aaaaa/utils/screen_adapter.dart';
 import 'package:aaaaa/views/detail_bar.dart';
+import 'package:aaaaa/views/map_view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -8,7 +9,6 @@ import '../model/shop_model.dart';
 
 class ShopDetail extends StatefulWidget {
   final Shop shop;
-
 
   const ShopDetail({super.key, required this.shop});
 
@@ -45,76 +45,90 @@ class _ShopDetailState extends State<ShopDetail> {
             width: double.infinity,
             child: Column(
               children: <Widget>[
-              CircleAvatar(
-              radius: 60,
-              backgroundImage: NetworkImage(widget.shop.imageUrl!),
-              backgroundColor: UtilColors.background,
-            ),
-            SizedBox(height: 25),
-            Text( widget.shop.name,
-            style: const TextStyle(
-            color: UtilColors.tColor,
-            fontSize: 26,
-            fontWeight: FontWeight.w700,
-            ),
-          ),
-          SizedBox(height: 5),
-                Text( widget.shop.address,
+                CircleAvatar(
+                  radius: 60,
+                  backgroundImage: NetworkImage(widget.shop.imageUrl!),
+                  backgroundColor: UtilColors.background,
+                ),
+                SizedBox(height: 25),
+                Text(
+                  widget.shop.name,
+                  style: const TextStyle(
+                    color: UtilColors.tColor,
+                    fontSize: 26,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  widget.shop.address,
                   style: const TextStyle(
                     color: UtilColors.tColor,
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-          TextButton.icon(
-            onPressed: () {
-              //openMap();
-            },
-            icon: const FaIcon(Icons.map,
-              color: UtilColors.tColor,),
-            label: const Text(
-              'Click here to see map',
-              style: TextStyle(
-                color: UtilColors.tColor,
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-              ),
+                TextButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MapView(
+                          latitude: widget.shop.latitude,
+                          // Pass the shop latitude
+                          longitude:
+                              widget.shop.longitude, // Pass the shop longitude
+                        ),
+                      ),
+                    );
+                  },
+                  icon: const FaIcon(
+                    Icons.map,
+                    color: UtilColors.tColor,
+                  ),
+                  label: const Text(
+                    'Click here to see location',
+                    style: TextStyle(
+                      color: UtilColors.tColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  style: TextButton.styleFrom(
+                    backgroundColor: UtilColors.pColor,
+                  ),
+                ),
+                SizedBox(height: 25),
+              ],
             ),
-            style: TextButton.styleFrom(
-              backgroundColor: UtilColors.pColor,
+          ),
+          Container(
+            padding: const EdgeInsets.all(15),
+            margin: const EdgeInsets.only(bottom: 30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Text(
+                  'About',
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  widget.shop.description,
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                )
+              ],
             ),
           ),
-          SizedBox(height: 25),
-        ],
-          ),
-      ),
-        Container(
-          padding: const EdgeInsets.all(15),
-          margin: const EdgeInsets.only(bottom: 30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Text(
-                'About',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
-              ),
-              SizedBox(height: 10),
-              Text(
-                widget.shop.description,
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-              )
-            ],
-          ),
-        ),
           const Spacer(),
           Padding(
               padding: const EdgeInsets.all(15),
               child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: (){
-                        Navigator.of(context).pushNamed('booking',
-                        arguments: widget.shop);
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushNamed('booking', arguments: widget.shop);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: UtilColors.pColor,
@@ -127,12 +141,9 @@ class _ShopDetailState extends State<ShopDetail> {
                           fontWeight: FontWeight.w500,
                           fontSize: 16,
                         ),
-                      )))
-          )
+                      ))))
         ],
       )),
     );
   }
 }
-
-

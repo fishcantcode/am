@@ -40,18 +40,18 @@ class _HomePageState extends State<HomePage> {
     fetch();
   }
 
-  bool usernameExist(){
-    if(username != null){
+  bool usernameExist() {
+    if (username != null) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
 
   Future<void> fetchShops() async {
-    try{
+    try {
       QuerySnapshot querySnapshot =
-      await FirebaseFirestore.instance.collection('shops').get();
+          await FirebaseFirestore.instance.collection('shops').get();
 
       List<Shop> tmpShops = [];
 
@@ -102,13 +102,15 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                usernameExist()? Text(
-                      username,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ): Text('Not available'),
+                usernameExist()
+                    ? Text(
+                        username,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      )
+                    : Text('Not available'),
                 SizedBox(
                   height: 40,
                 ),
@@ -131,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                       itemCount: _shops.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -140,15 +142,15 @@ class _HomePageState extends State<HomePage> {
                               ),
                             );
                           },
-                            child: ShopCard(
-                              name: _shops[index].name,
-                              address: _shops[index].address,
-                              imageUrl: _shops[index].imageUrl ?? "",
-                              phone: _shops[index].phone,
-                            ),
-                          );
-                        }),
-                  ),
+                          child: ShopCard(
+                            name: _shops[index].name,
+                            address: _shops[index].address,
+                            imageUrl: _shops[index].imageUrl ?? "",
+                            phone: _shops[index].phone,
+                          ),
+                        );
+                      }),
+                ),
                 Row(
                   children: [
                     Expanded(
