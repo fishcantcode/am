@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -6,7 +7,7 @@ import '../utils/colors.dart';
 import '../utils/global.dart';
 
 class GoogleAuth {
-  Future<User?> signInWithGoogle() async {
+  Future<User?> signInWithGoogle(BuildContext context) async {
     User? user;
     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
     final GoogleSignInAuthentication gAuth;
@@ -21,6 +22,11 @@ class GoogleAuth {
             await FirebaseAuth.instance.signInWithCredential(cred);
 
         user = userCred.user;
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user?.uid)
+            .set({'username': 'google login user', 'email': user?.email}).then(
+                (value) => Navigator.of(context).pushNamed('main'));
       } on FirebaseAuthException catch (e) {
         String errorMessage = '';
         if (e.code == 'account-exists-with-different-credential') {

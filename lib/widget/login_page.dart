@@ -5,7 +5,6 @@ import 'package:aaaaa/utils/colors.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../services/google_auth.dart';
 import '../views/login.dart';
-import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -89,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 onPressed: () async {
                   User? user;
-                  user = await GoogleAuth().signInWithGoogle();
+                  user = await GoogleAuth().signInWithGoogle(context);
                   if (user != null) {
                     Navigator.of(context).pushNamed('main');
                   } else {}

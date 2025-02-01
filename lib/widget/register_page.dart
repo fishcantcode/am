@@ -71,7 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 onPressed: () async {
                   User? user;
-                  user = await GoogleAuth().signInWithGoogle();
+                  user = await GoogleAuth().signInWithGoogle(context);
                   if (user != null) {
                     Navigator.of(context).pushNamed('main');
                   } else {}
