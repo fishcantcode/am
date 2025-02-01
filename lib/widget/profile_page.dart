@@ -1,5 +1,4 @@
 import 'package:aaaaa/widget/appointment_page.dart';
-import 'package:aaaaa/widget/chat_page.dart';
 import 'package:aaaaa/widget/login_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -106,27 +105,10 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(
                 height: 20,
               ),
-              Container(
-                width: 400,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ChatPage()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: UtilColors.mColor,
-                  ),
-                  child: const Text('AI chatbot',
-                      style: TextStyle(color: UtilColors.tColor)),
-                ),
-              ),
               const SizedBox(
                 height: 20,
               ),
-              Container(
+              SizedBox(
                 width: 400,
                 child: ElevatedButton(
                   onPressed: () async {

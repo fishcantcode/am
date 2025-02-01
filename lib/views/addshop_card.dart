@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 import '../utils/colors.dart';
 import 'detail_bar.dart';
@@ -25,7 +26,8 @@ class _AddShopScreenState extends State<AddShopScreen> {
   File? imageFile;
   PlatformFile? pickedFile;
   UploadTask? uploadTask;
-  final _picker = ImagePicker(); // ImagePicker instance to use the camera
+  final _picker = ImagePicker();
+  String text = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,13 +76,23 @@ class _AddShopScreenState extends State<AddShopScreen> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
+                  SizedBox(height: 20),
+                  Text(
+                    text.isEmpty
+                        ? "We think it is..."
+                        : "We think it is${text}",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  SizedBox(height: 10),
                   if (imageFile != null)
                     Image.file(
-                      File(imageFile!.path!),
+                      File(imageFile!.path),
                       height: 200,
                       width: 200,
                       fit: BoxFit.cover,
                     ),
+
                   ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: UtilColors.pColor,
@@ -128,23 +140,44 @@ class _AddShopScreenState extends State<AddShopScreen> {
   }
 
   Future select() async {
-    final image = await FilePicker.platform.pickFiles();
+    final image = await _picker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      pickedFile = image?.files.first;
-    });
-  }
+    if (image != null) {
+      setState(() {
+        imageFile = File(image.path);
+      });
+      imageRec(imageFile!);
+    }
+    }
 
   Future takePhoto() async {
     final pickedImage = await _picker.pickImage(source: ImageSource.camera);
     if (pickedImage != null) {
       setState(() {
-        imageFile = File(pickedImage.path); // Store the captured image
+        imageFile = File(pickedImage.path);
       });
+      imageRec(imageFile!);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Picture cancelled")),
       );
+    }
+  }
+
+  Future<void> imageRec(File image) async {
+    final inputImage = InputImage.fromFile(image);
+    final textRecognizer = TextRecognizer();
+
+    try {
+      final recognizedText = await textRecognizer.processImage(inputImage);
+      setState(() {
+        text = recognizedText.text;
+      });
+    } catch (e) {
+      print("Error: $e");
+      setState(() {
+        text = "Error occurred";
+      });
     }
   }
 
