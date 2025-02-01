@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../utils/colors.dart';
 import '../views/addshop_card.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -14,14 +15,20 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   late String username;
+
   fetch() async {
     final user = await FirebaseAuth.instance.currentUser!;
-    await FirebaseFirestore.instance.collection('users').doc(user.uid).get().then((value){
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get()
+        .then((value) {
       setState(() {
         username = value.data()?['username'];
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,20 +41,28 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: 120,
                 height: 120,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100), child: const Image(image: AssetImage('assets/img/help.jpg')),
+                  borderRadius: BorderRadius.circular(100),
+                  child: const Image(image: AssetImage('assets/img/help.jpg')),
                 ),
               ),
-              const SizedBox(height: 10,),
-              FutureBuilder(future: fetch(), builder: (context,snapshot){
-                return Text(username,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                  ),
-                );
-              },
+              const SizedBox(
+                height: 10,
               ),
-              const SizedBox(height: 50,),
+              FutureBuilder(
+                future: fetch(),
+                builder: (context, snapshot) {
+                  return Text(
+                    username,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 50,
+              ),
               const Divider(),
               Container(
                 width: 400,
@@ -65,14 +80,17 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: TextStyle(color: UtilColors.tColor)),
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               Container(
                 width: 400,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AppointmentPage()),
+                      MaterialPageRoute(
+                          builder: (context) => AppointmentPage()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -82,7 +100,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: TextStyle(color: UtilColors.tColor)),
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               Container(
                 width: 400,
                 child: ElevatedButton(
@@ -94,7 +114,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: TextStyle(color: UtilColors.tColor)),
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               Container(
                 width: 400,
                 child: ElevatedButton(
@@ -115,6 +137,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+
   Future<void> logout() async {
     try {
       await FirebaseAuth.instance.signOut();
