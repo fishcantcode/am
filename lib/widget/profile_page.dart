@@ -1,7 +1,9 @@
 import 'package:aaaaa/widget/appointment_page.dart';
+import 'package:aaaaa/widget/login_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../utils/colors.dart';
 import '../views/addshop_card.dart';
@@ -122,8 +124,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: ElevatedButton(
                   onPressed: () async {
                     await logout();
-                    Navigator.of(context).pushReplacementNamed('/');
-                  },
+                    if (mounted) {
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                            (route) => false, // Removes all previous routes
+                      );
+                    }                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: UtilColors.mColor,
                   ),
@@ -140,6 +146,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> logout() async {
     try {
+      await GoogleSignIn().signOut();
       await FirebaseAuth.instance.signOut();
     } catch (e) {
       print("Error logging out: $e");
