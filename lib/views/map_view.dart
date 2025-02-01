@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
-
 class MapView extends StatefulWidget {
   final num latitude;
   final num longitude;
@@ -25,6 +24,7 @@ class _MapViewState extends State<MapView> {
 
     requestPerm();
   }
+
   void requestPerm() async {
     var permStat = await _location.hasPermission();
     if (permStat == PermissionStatus.denied) {
@@ -35,45 +35,42 @@ class _MapViewState extends State<MapView> {
       getCurrLoc();
     }
   }
+
   void getCurrLoc() async {
     LocationData currLocation = await _location.getLocation();
     setState(() {
       _currentLocation = currLocation;
+      print('Current Latitude: ${currLocation.latitude}');
+      print('Current Longitude: ${currLocation.longitude}');
+      // Add marker for the shop location
       _markers.add(Marker(
-        markerId: const MarkerId('current_location'),
-        position: LatLng(currLocation.latitude!, currLocation.longitude!),
-        infoWindow: const InfoWindow(title: 'Current Location'),
+        markerId: const MarkerId('shop_location'),
+        position:
+            LatLng(widget.latitude.toDouble(), widget.longitude.toDouble()),
+        infoWindow: const InfoWindow(title: 'Shop'),
       ));
     });
-
-    mapController.animateCamera(
-      CameraUpdate.newLatLng(
-        LatLng(currLocation.latitude!, currLocation.longitude!),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    print("Latitude: ${widget.latitude}, Longitude: ${widget.longitude}");
+    //print("Latitude: ${widget.latitude}, Longitude: ${widget.longitude}");
     return Scaffold(
       appBar: AppBar(
-        title:  Text("Location"),
+        title: Text("Location"),
       ),
       body: GoogleMap(
         initialCameraPosition: CameraPosition(
-          target: LatLng(widget.latitude.toDouble(), widget.longitude.toDouble()),
+          target:
+              LatLng(widget.latitude.toDouble(), widget.longitude.toDouble()),
           zoom: 18,
         ),
         onMapCreated: (GoogleMapController controller) {
           mapController = controller;
         },
-        markers: {
-          Marker(
-            markerId: MarkerId('shop_location'),
-            position: LatLng(widget.latitude.toDouble(), widget.longitude.toDouble()),
-          ),
-        },
+        myLocationEnabled: true,
+        myLocationButtonEnabled: true,
+        markers: _markers,
       ),
     );
   }
