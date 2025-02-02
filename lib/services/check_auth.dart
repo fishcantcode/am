@@ -9,15 +9,15 @@ class checkAuth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(), // Listen to auth state
+      stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator()); // Show loading
+          return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasData) {
-          return const mLayout(); // User is logged in, go to the main page
+          return const mLayout();
         }
-        return const LoginPage(); // User is not logged in, show login
+        return const LoginPage();
       },
     );
   }

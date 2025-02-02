@@ -43,7 +43,7 @@ class _BookPageState extends State<BookPage> {
       });
 
       setState(() {
-        _bookedSlots = bookedSlots; // Update booked time slots
+        _bookedSlots = bookedSlots;
       });
     } catch (e) {
       print('Error fetching booked time slots: $e');
@@ -132,7 +132,7 @@ class _BookPageState extends State<BookPage> {
                 return InkWell(
                   splashColor: Colors.transparent,
                   onTap: isBooked
-                      ? null // Disable the time slot if it's already booked
+                      ? null
                       : () {
                           setState(() {
                             _currentIndex = index;
@@ -153,7 +153,7 @@ class _BookPageState extends State<BookPage> {
                       color: _currentIndex == index
                           ? UtilColors.pColor
                           : isBooked
-                              ? Colors.grey // Grey out the booked time slot
+                              ? Colors.grey
                               : null,
                     ),
                     alignment: Alignment.center,

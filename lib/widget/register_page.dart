@@ -39,7 +39,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             RegisterLoginPage(),
 
-            const SizedBox(height: 30), //space
+            const SizedBox(height: 30),
             Row(
               children: [
                 Expanded(
@@ -62,7 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ],
             ),
-            const SizedBox(height: 20), //space
+            const SizedBox(height: 20),
             Center(
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
@@ -87,7 +87,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 30), //spkeyace
+            const SizedBox(height: 30),
             Center(
                 child: TextButton(
               onPressed: () {

@@ -1,5 +1,4 @@
 import 'package:aaaaa/utils/colors.dart';
-import 'package:aaaaa/utils/screen_adapter.dart';
 import 'package:aaaaa/views/detail_bar.dart';
 import 'package:aaaaa/views/map_view.dart';
 import 'package:flutter/material.dart';
@@ -75,9 +74,8 @@ class _ShopDetailState extends State<ShopDetail> {
                       MaterialPageRoute(
                         builder: (context) => MapView(
                           latitude: widget.shop.latitude,
-                          // Pass the shop latitude
                           longitude:
-                              widget.shop.longitude, // Pass the shop longitude
+                              widget.shop.longitude,
                         ),
                       ),
                     );

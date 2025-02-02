@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Color(0xFF274C77),
                   )),
             )),
-            const SizedBox(height: 30), //space
+            const SizedBox(height: 30),
             Row(
               children: [
                 Expanded(
@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ],
             ),
-            const SizedBox(height: 20), //space
+            const SizedBox(height: 20),
             Center(
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
@@ -104,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 30), //space
+            const SizedBox(height: 30),
             Center(
                 child: TextButton(
               onPressed: () {

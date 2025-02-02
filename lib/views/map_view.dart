@@ -42,7 +42,6 @@ class _MapViewState extends State<MapView> {
       _currentLocation = currLocation;
       print('Current Latitude: ${currLocation.latitude}');
       print('Current Longitude: ${currLocation.longitude}');
-      // Add marker for the shop location
       _markers.add(Marker(
         markerId: const MarkerId('shop_location'),
         position:
