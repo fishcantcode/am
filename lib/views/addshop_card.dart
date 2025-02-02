@@ -254,8 +254,8 @@ class _AddShopScreenState extends State<AddShopScreen> {
       'phone': int.tryParse(_phone.text),
       'address': _address.text,
       'imageUrl': downloadUrl,
-      'latitude': _latitude.text,
-      'longitude': _longitude.text,
+      'latitude': num.tryParse(_latitude.text),
+      'longitude': num.tryParse(_longitude.text),
       'description': _description.text,
     });
     ScaffoldMessenger.of(context).showSnackBar(
