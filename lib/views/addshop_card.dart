@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:google_mlkit_object_detection/google_mlkit_object_detection.dart';
 import 'package:image_picker/image_picker.dart';
 import '../utils/colors.dart';
 import 'detail_bar.dart';
@@ -28,111 +28,125 @@ class _AddShopScreenState extends State<AddShopScreen> {
   UploadTask? uploadTask;
   final _picker = ImagePicker();
   String text = '';
+  late ObjectDetector objDetector;
+
+  @override
+  void initState() {
+    super.initState();
+    final options = ObjectDetectorOptions(
+      mode: DetectionMode.stream,
+      classifyObjects: true,
+      multipleObjects: false,
+    );
+    objDetector = ObjectDetector(options: options);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  DetailBar(
+      appBar: DetailBar(
         title: 'Add shop',
         icon: const FaIcon(Icons.arrow_back),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _name,
-                decoration: InputDecoration(labelText: "Name"),
-              ),
-              TextFormField(
-                controller: _phone,
-                decoration: InputDecoration(labelText: "Phone Number"),
-              ),
-              TextFormField(
-                controller: _address,
-                decoration: InputDecoration(labelText: "Address"),
-              ),
-              TextFormField(
-                controller: _longitude,
-                decoration: InputDecoration(labelText: "Longitude"),
-              ),
-              TextFormField(
-                controller: _latitude,
-                decoration: InputDecoration(labelText: "Latitude"),
-              ),
-              TextFormField(
-                controller: _description,
-                decoration: InputDecoration(labelText: "description"),
-              ),
-              SizedBox(height: 20),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Logo',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    text.isEmpty
-                        ? "We think it is..."
-                        : "We think it is${text}",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  SizedBox(height: 10),
-                  if (imageFile != null)
-                    Image.file(
-                      File(imageFile!.path),
-                      height: 200,
-                      width: 200,
-                      fit: BoxFit.cover,
-                    ),
-
-                  ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: UtilColors.pColor,
-                        foregroundColor: UtilColors.tColor,
-                      ),
-                      icon: Icon(
-                        Icons.photo_library,
-                        color: UtilColors.tColor,
-                      ),
-                      label: Text("Gallery"),
-                      onPressed: () {
-                        select();
-                      }),
-                  ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: UtilColors.pColor,
-                        foregroundColor: UtilColors.tColor,
-                      ),
-                      icon: Icon(
-                        Icons.camera_alt,
-                        color: UtilColors.tColor,
-                      ),
-                      label: Text("Camera"),
-                      onPressed: () {
-                        takePhoto();
-                      }),
-                ],
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: UtilColors.pColor,
-                  foregroundColor: UtilColors.tColor,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: _name,
+                  decoration: InputDecoration(labelText: "Name"),
                 ),
-                onPressed: () {
-                  upload();
-                },
-                child: Text("Add Shop"),
-              ),
-            ],
+                TextFormField(
+                  controller: _phone,
+                  decoration: InputDecoration(labelText: "Phone Number"),
+                ),
+                TextFormField(
+                  controller: _address,
+                  decoration: InputDecoration(labelText: "Address"),
+                ),
+                TextFormField(
+                  controller: _longitude,
+                  decoration: InputDecoration(labelText: "Longitude"),
+                ),
+                TextFormField(
+                  controller: _latitude,
+                  decoration: InputDecoration(labelText: "Latitude"),
+                ),
+                TextFormField(
+                  controller: _description,
+                  decoration: InputDecoration(labelText: "description"),
+                ),
+                SizedBox(height: 20),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Logo',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      text.isEmpty
+                          ? "We think it is..."
+                          : "We think it is${text}",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    SizedBox(height: 10),
+                    if (imageFile != null)
+                      Image.file(
+                        File(imageFile!.path),
+                        height: 200,
+                        width: 200,
+                        fit: BoxFit.cover,
+                      ),
+                    ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: UtilColors.pColor,
+                          foregroundColor: UtilColors.tColor,
+                        ),
+                        icon: Icon(
+                          Icons.photo_library,
+                          color: UtilColors.tColor,
+                        ),
+                        label: Text("Gallery"),
+                        onPressed: () {
+                          select();
+                        }),
+                    ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: UtilColors.pColor,
+                          foregroundColor: UtilColors.tColor,
+                        ),
+                        icon: Icon(
+                          Icons.camera_alt,
+                          color: UtilColors.tColor,
+                        ),
+                        label: Text("Camera"),
+                        onPressed: () {
+                          takePhoto();
+                        }),
+                  ],
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: UtilColors.pColor,
+                    foregroundColor: UtilColors.tColor,
+                  ),
+                  onPressed: () {
+                    upload();
+                  },
+                  child: Text("Add Shop"),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -148,7 +162,7 @@ class _AddShopScreenState extends State<AddShopScreen> {
       });
       imageRec(imageFile!);
     }
-    }
+  }
 
   Future takePhoto() async {
     final pickedImage = await _picker.pickImage(source: ImageSource.camera);
@@ -166,17 +180,26 @@ class _AddShopScreenState extends State<AddShopScreen> {
 
   Future<void> imageRec(File image) async {
     final inputImage = InputImage.fromFile(image);
-    final textRecognizer = TextRecognizer();
 
     try {
-      final recognizedText = await textRecognizer.processImage(inputImage);
-      setState(() {
-        text = recognizedText.text;
-      });
+      final List<DetectedObject> objects = await objDetector.processImage(inputImage);
+      if (objects.isNotEmpty) {
+        setState(() {
+          text = objects
+              .map((e) => e.labels.map((label) => label.text).join(', '))
+              .join(', ');
+        });
+        print("Detected objects: $text");
+      } else {
+        setState(() {
+          text = "No objects detected.";
+        });
+        print("No objects detected.");
+      }
     } catch (e) {
-      print("Error: $e");
+      print("Error during object detection: $e");
       setState(() {
-        text = "Error occurred";
+        text = "Error occurred during detection";
       });
     }
   }
