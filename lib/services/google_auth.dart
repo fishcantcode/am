@@ -28,6 +28,7 @@ class GoogleAuth {
             .set({'username': 'google login user', 'email': user?.email}).then(
                 (value) => Navigator.of(context).pushNamed('main'));
       } on FirebaseAuthException catch (e) {
+        print(e);
         String errorMessage = '';
         if (e.code == 'account-exists-with-different-credential') {
           errorMessage = 'Already exist, use another email';

@@ -180,7 +180,7 @@ class _AddShopScreenState extends State<AddShopScreen> {
       setState(() {
         imageFile = File(image.path);
       });
-      imageRec(imageFile!);
+      imageLabel(imageFile!);
     }
   }
 
@@ -190,7 +190,7 @@ class _AddShopScreenState extends State<AddShopScreen> {
       setState(() {
         imageFile = File(pickedImage.path);
       });
-      imageRec(imageFile!);
+      imageLabel(imageFile!);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Picture cancelled")),
@@ -198,7 +198,7 @@ class _AddShopScreenState extends State<AddShopScreen> {
     }
   }
 
-  Future<void> imageRec(File image) async {
+  Future<void> imageLabel(File image) async {
     final inputImage = InputImage.fromFile(image);
 
     try {
