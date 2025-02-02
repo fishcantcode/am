@@ -7,10 +7,6 @@ plugins {
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
 }
-dependencies {
-    // Add the following line inside the dependencies block
-    implementation 'com.google.mlkit:text-recognition:16.0.1'
-}
 android {
     namespace = "com.example.aaaaa"
     compileSdk = flutter.compileSdkVersion

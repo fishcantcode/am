@@ -3,9 +3,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_mlkit_object_detection/google_mlkit_object_detection.dart';
+import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import '../utils/colors.dart';
 import 'detail_bar.dart';
 
@@ -28,17 +31,34 @@ class _AddShopScreenState extends State<AddShopScreen> {
   UploadTask? uploadTask;
   final _picker = ImagePicker();
   String text = '';
-  late ObjectDetector objDetector;
+  late ImageLabeler labler;
 
   @override
   void initState() {
     super.initState();
-    final options = ObjectDetectorOptions(
-      mode: DetectionMode.stream,
-      classifyObjects: true,
-      multipleObjects: false,
+    loadModel();
+  }
+
+  Future<String> getModelPath(String asset) async {
+    final path = '${(await getApplicationSupportDirectory()).path}/$asset';
+    await Directory(p.dirname(path)).create(recursive: true);
+    final file = File(path);
+    if (!await file.exists()) {
+      final byteData = await rootBundle.load(asset);
+      await file.writeAsBytes(byteData.buffer
+          .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+    }
+    return file.path;
+  }
+  Future<void> loadModel() async{
+    final modelPath = await getModelPath('assets/ml/model.tflite');
+    final options = LocalLabelerOptions(
+      confidenceThreshold: 0.5,
+      modelPath: modelPath,
     );
-    objDetector = ObjectDetector(options: options);
+    setState(() {
+      labler = ImageLabeler(options: options);
+    });
   }
 
   @override
@@ -94,7 +114,7 @@ class _AddShopScreenState extends State<AddShopScreen> {
                     Text(
                       text.isEmpty
                           ? "We think it is..."
-                          : "We think it is${text}",
+                          : "We think it is $text",
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 14),
                     ),
@@ -182,12 +202,10 @@ class _AddShopScreenState extends State<AddShopScreen> {
     final inputImage = InputImage.fromFile(image);
 
     try {
-      final List<DetectedObject> objects = await objDetector.processImage(inputImage);
-      if (objects.isNotEmpty) {
+      final labels = await labler.processImage(inputImage);
+      if (labels.isNotEmpty) {
         setState(() {
-          text = objects
-              .map((e) => e.labels.map((label) => label.text).join(', '))
-              .join(', ');
+          text = labels.map((e) => e.label).join('');
         });
         print("Detected objects: $text");
       } else {
