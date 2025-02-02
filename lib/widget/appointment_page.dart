@@ -45,17 +45,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
     }
   }
 
-  Future<void> cancel(String appointmentId) async {
-    try {
-      await _db.collection('appointments').doc(appointmentId).delete();
-      setState(() {
-        _appointments
-            .removeWhere((appointment) => appointment['id'] == appointmentId);
-      });
-    } catch (e) {
-      print('Error: $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
